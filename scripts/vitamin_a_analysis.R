@@ -1,9 +1,17 @@
-# ==============================================================================
-# Household Access Pathways to Vitamin A Adequacy in Nigeria
-# 2024 NDHS | Ideraoluwa Fasoranti | 2026
-# Full documentation: see README.md
-# ==============================================================================
+# -----------------------------------------------------------------------------
+# Project: Household Access Pathways to Vitamin A Coverage in Nigeria
+# Data: 2024 Nigeria Demographic and Health Survey (NDHS)
+# Author: Ideraoluwa Fasoranti
+# Date: 2026
+# Description: Survey-weighted analysis of dietary and supplementation
+# pathways to Vitamin A coverage among children aged 6-23 months in Nigeria,
+# examining overlap between the two pathways and predictors of each.
+# See README.md for full project description and reproduction instructions
+# -----------------------------------------------------------------------------
 
+# ------------------------------------------------------------------------------
+# Load Libraries
+# ------------------------------------------------------------------------------
 library(tidyverse)
 library(haven)
 library(janitor)
@@ -11,6 +19,15 @@ library(survey)
 library(ggplot2)
 library(gtsummary)
 library(webshot2)
+
+# ------------------------------------------------------------------------------
+# Note on Working Directory
+# ------------------------------------------------------------------------------
+# This script assumes you are working within the Nigeria-DHS2024-vitaminA-pathways
+# R Project. If you are not using the R Project, set your working directory
+# manually to the project folder before running this script:
+# setwd("path/to/Nigeria-DHS2024-vitaminA-pathways")
+# -------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # STEP 1: Load and merge KR (child) and IR (woman) files
@@ -42,6 +59,11 @@ nrow(df)
 
 # ------------------------------------------------------------------------------
 # Outcome 1: Dietary Vitamin A (consumed VA-rich fruit/veg, prior day)
+# -------------------------------------------------------------------------------
+# v414i/j/k = pumpkin, carrots, squash, sweet potatoes, dark green leafy vegetables, 
+# Vitamin A-rich fruits, consumed in the prior 24 hours 
+# (DHS standard IYCF food group items).
+# Missing treated as 0 (not consumed) per WHO IYCF convention.
 # ------------------------------------------------------------------------------
 df <- df %>%
   mutate(
@@ -52,7 +74,10 @@ mean(df$vita_diet, na.rm = TRUE)
 
 # ------------------------------------------------------------------------------
 # Outcome 2: Vitamin A supplementation (h34: dose in last 6 months)
-# h34 codes: 1 = yes, 0 = no, 8 = don't know is treated as not received
+# ------------------------------------------------------------------------------
+# h34 = received a Vitamin A dose in the last 6 months (mother-reported).
+# h34 codes: 1 = yes, 0 = no, 8 (don't know) is treated as 0/not received, same 
+# as how vita_diet missing values are handled above.
 # ------------------------------------------------------------------------------
 df <- df %>%
   mutate(
@@ -101,7 +126,11 @@ df <- df %>%
 summary(df$autonomy_score)
 table(df$autonomy_n, useNA = "always")
 # ----------------------------------------------------------------------------------- 
-# 3.1 ANC visits (m14_1) 98/99 are Don't know/missing codes in DHS, not valid counts
+# 3.1 ANC visits (m14_1) 
+# -----------------------------------------------------------------------------------
+# m14_1 = number of ANC visits during pregnancy.
+# Codes 98 (don't know) and 99 (missing) are not valid visit counts, set to NA to 
+# avoid distorting the mean.
 # -----------------------------------------------------------------------------------
 df <- df %>%
   mutate(
@@ -127,7 +156,7 @@ df$v024 <- as.factor(as.integer(df$v024))
 df$v149 <- as.factor(as.integer(df$v149))
 df$v190 <- as.factor(as.integer(df$v190))
 df$v025 <- as.factor(as.integer(df$v025))
-df$vita_diet <- as.factor(vita_diet <- df$vita_diet)
+df$vita_diet <- as.factor(df$vita_diet)
 df$vita_supp <- as.factor(df$vita_supp)
 
 # ------------------------------------------------------------------------------
@@ -165,10 +194,17 @@ modelB <- svyglm(
 
 summary(modelB)
 
-# ------------------------------------------------------------------------------
-# STEP 5: Double-gap comparison: overlap between dietary and 
-#         supplementation adequacy
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------
+# STEP 5: Double-gap comparison: overlap between dietary and supplementation coverage
+# -----------------------------------------------------------------------------------
+# Cross-classifies children by whether they meet each Vitamin A pathway
+# independently. This shows whether the two pathways overlap or reach different 
+# children, a child receiving supplementation may still not have consumed a 
+# Vitamin A-rich food the day before, and vice versa.
+#
+# "Double gap" = met neither pathway on the reference day, the group of highest concern, 
+# and the basis for the main double-gap statistic reported in the paper.
+# --------------------------------------------------------------------------------------
 df <- df %>%
   mutate(
     gap_group = case_when(
@@ -195,9 +231,9 @@ dhs_design <- svydesign(
 # Survey-weighted proportions (more accurate than raw table above)
 svymean(~as.factor(gap_group), dhs_design, na.rm = TRUE)
 
-# ==============================================================================
+# -------------------------------------------------------------------------------
 # STEP 6: VISUALIZATION
-# ==============================================================================
+# -------------------------------------------------------------------------------
 dir.create("outputs", showWarnings = FALSE)
 
 # ------------------------------------------------------------------------------
@@ -279,7 +315,7 @@ table1 <- df_table %>%
   tbl_summary(
     by = zone,
     label = list(
-      vita_diet_label ~ "Dietary Vitamin A adequacy",
+      vita_diet_label ~ "Dietary Vitamin A ",
       vita_supp_label ~ "Vitamin A supplementation",
       gap_group       ~ "Pathway coverage group",
       autonomy_score  ~ "Autonomy score (mean)",
@@ -338,6 +374,10 @@ data.frame(
 # ------------------------------------------------------------------------------
 # 8.2 By zone (autonomy fixed at sample mean, 0.286) for a single representative 
 # estimate per zone
+# -------------------------------------------------------------------------------
+# autonomy_score = 0.286
+# sample mean autonomy_score (see summary(df$autonomy_score) above), held constant 
+# to isolate the effect of zone in this prediction
 # ------------------------------------------------------------------------------
 zone_labels <- c("1"="North West", "2"="North East", "3"="North Central",
                  "4"="South East", "5"="South South", "6"="South West")
@@ -372,3 +412,11 @@ autonomy_by_zone <- svyby(~autonomy_score, ~v024, dhs_design, svymean,
                           na.rm = TRUE)
 autonomy_by_zone$zone <- zone_labels[as.character(autonomy_by_zone$v024)]
 autonomy_by_zone
+
+# ------------------------------------------------------------------------------
+# SESSION INFO
+# ------------------------------------------------------------------------------
+# R version and package versions used in this analysis are recorded here for
+# reproducibility purposes.
+# ------------------------------------------------------------------------------
+sessionInfo()
