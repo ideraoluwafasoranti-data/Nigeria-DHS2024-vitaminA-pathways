@@ -1,4 +1,4 @@
-  # Vitamin A Pathways Among Nigerian Children Aged 6–23 Months: Associated Factors and a Large Coverage Gap
+# Vitamin A Pathways Among Nigerian Children Aged 6–23 Months: Associated Factors and a Large Coverage Gap
 
 ## About This Project
 
@@ -7,12 +7,12 @@ Nigeria Demographic and Health Survey (NDHS), as a follow-up to my earlier
 analysis on maternal autonomy, dietary diversity, and malnutrition using the 
 same dataset and children.
 
-A child can reach adequate Vitamin A status in two ways: by eating 
-Vitamin A-rich foods, or by getting a high-dose Vitamin A supplement, 
+A child can reach adequate Vitamin A status in two ways: by consuming 
+Vitamin A-rich foods, or by receiving a high-dose Vitamin A supplement, 
 usually given through a health facility visit or a campaign. Most studies 
 looking at Vitamin A treat these as one combined outcome. I wanted to look at 
 them separately instead, to see how many children are missing out on both at 
-once, and whether the same things that mattered in my earlier analysis 
+once, and whether the same factors that mattered in my earlier analysis 
 (wealth, autonomy) also matter here.
 
 ## Research Questions
@@ -73,8 +73,7 @@ scored 1 (mother decides alone), 0.5 (jointly), 0 (husband or someone else decid
 then averaged. 
 Same limitation applies here as before: V743E, the question about 
 who decides what food is cooked daily, was not asked in the 2024 NDHS, 
-so this score shows only general household decision-making, not decision-making 
-about food specifically.
+so this score shows only general household decision-making.
 
 **ANC visits** (M14_1): number of antenatal care visits during pregnancy, 
 used as a stand-in for contact with the health system. Codes 98 and 99 (don't know/missing) 
@@ -86,7 +85,7 @@ number of living children (V218), maternal age (V012), zone (V024), urban/rural 
 ### Statistical Approach
 
 Survey-weighted logistic regression using the `survey` package, accounting for 
-DHS's sampling design (primary sampling units, strata, and weights).
+DHS sampling design (primary sampling units, strata, and weights).
 
 Two separate models were run, one for each pathway:
 
@@ -103,7 +102,7 @@ supplementation by contact with the health system. Using one model for both woul
 
 ### Descriptive
 
-- 32.9% of children ate Vitamin A-rich food the day before the survey; 42.8% had received supplementation. 
+- 32.9% of children ate Vitamin A-rich food the day before the survey, 42.8% had received supplementation. 
   Supplementation coverage is higher, which makes sense since it is often delivered through campaigns 
   that reach a lot of children at once, rather than needing sustained dietary change.
 - Putting both together: 14.7% of children got both, 18.6% got food only, 25.1% got supplementation only, 
@@ -144,7 +143,7 @@ Instead, household size and maternal age were what predicted whether a child ate
 This suggests that for this specific food group, a mother's time and caregiving capacity might matter more than 
 how much money the household has.
 
-For supplementation, health system contact (ANC visits) was clearly the biggest factor, 
+For supplementation, health system contact (Antenatal Care visits) was the biggest factor, 
 which makes sense since it is usually delivered at a facility. What is interesting is that 
 maternal autonomy mattered here, when it didn't matter anywhere in my earlier analysis. 
 One possible reason: getting a supplement just requires showing up when it is offered, a single decision, 
@@ -159,9 +158,7 @@ need to tackle both facility access and household-level dietary behavior togethe
 ### A Note on the Anemia Finding
 
 I initially looked at anemia (HW57) by coverage group too, since Vitamin A plays a role in immune function and blood health. 
-Without adjusting for other factors, anemia looked lower among children who were supplemented (around 66%) versus those who were not (around 73%), 
-regardless of their diet. But once I adjusted for the same factors as Models A and B, this difference was no longer significant. 
-Because of this, I left anemia out of the final analysis and focused on the two confirmed findings above.
+Without adjusting for other factors, anemia looked lower among children who were supplemented (around 66%) versus those who were not (around 73%), regardless of their diet. But once I adjusted for the same factors as Models A and B, this difference was no longer significant. Because of this, I left anemia out of the final analysis and focused on the two confirmed findings above.
 
 ## Limitations
 
@@ -184,13 +181,13 @@ I want to be upfront about what this analysis can not tell us:
 
 All outputs are in the `/outputs` folder:
 
-1. `gap_group_coverage.png` - the main chart: percentage of children in each of the four coverage groups
-2. `pathways_by_wealth.png` - food consumption vs. supplementation by wealth quintile
-3. `table1_descriptive.png` / `table1_descriptive.html` — descriptive statistics table by zone
+1. `gap_group_coverage.png`               - the main chart: percentage of children in each of the four coverage groups
+2. `pathways_by_wealth.png`               - food consumption vs. supplementation by wealth quintile
+3. `descriptive statistics table by zone` - table1_descriptive.png / table1_descriptive.html
 
 ## Repository Structure
 
-\`\`\`
+```
 nigeria-dhs-vitaminA-2024/
 ├── .gitignore
 ├── README.md
@@ -204,7 +201,7 @@ nigeria-dhs-vitaminA-2024/
     ├── pathways_by_wealth.png
     ├── table1_descriptive.png
     └── table1_descriptive.html
-\`\`\`
+```
 
 ## How to Reproduce
 
