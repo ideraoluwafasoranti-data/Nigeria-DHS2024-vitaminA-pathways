@@ -7,7 +7,7 @@ Nigeria Demographic and Health Survey (NDHS), as a follow-up to my earlier
 analysis on maternal autonomy, dietary diversity, and malnutrition using the 
 same dataset and children.
 
-A child can reach adequate Vitamin A status in two ways: by consuming 
+A child can obtain Vitamin A through two pathways: by consuming 
 Vitamin A-rich foods, or by receiving a high-dose Vitamin A supplement, 
 usually given through a health facility visit or a campaign. Most studies 
 looking at Vitamin A treat these as one combined outcome. I wanted to look at 
@@ -33,7 +33,7 @@ once, and whether the same factors that mattered in my earlier analysis
 
 **Access:** Requested and obtained through dhsprogram.com for academic research purposes
 
-**Sample:** Children aged 6-23 months with resident mothers (n = 3,100),
+**Sample:** Children aged 6-23 months with resident mothers (n = 3,100)
 
 **Ethics:** Data was obtained under the DHS Program data access agreement and 
             used strictly for academic research. 
@@ -188,7 +188,7 @@ All outputs are in the `/outputs` folder:
 ## Repository Structure
 
 ```
-nigeria-dhs-vitaminA-2024/
+nigeria-DHS2024-vitaminA-pathways/
 ├── .gitignore
 ├── README.md
 ├── nigeria-dhs-vitaminA-2024.Rproj
