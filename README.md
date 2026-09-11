@@ -23,7 +23,7 @@ once, and whether the same factors that mattered in my earlier analysis
    maternal autonomy predict this after accounting for antenatal care (ANC) visits?
 3. How much overlap is there between the two, how many children get neither (the "double gap")?
 4. Does the double gap differ by geopolitical zone, and does it follow the 
-   same north-south pattern I found in my earlier autonomy/wasting analysis?
+   same north-south pattern I found in my earlier autonomy analysis?
 
 ## Data
 
