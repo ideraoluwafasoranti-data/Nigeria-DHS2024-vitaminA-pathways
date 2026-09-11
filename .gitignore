@@ -1,0 +1,3 @@
+# Ignore DHS raw data files - cannot be shared publicly
+data/*.DTA
+data/*.dta 
