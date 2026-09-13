@@ -221,4 +221,4 @@ Raw data files are not included in this repository and must be requested directl
 **Ideraoluwa J. Fasoranti**
 Nutrition and Dietetics Graduate | Independent Researcher
 
-[LinkedIn](https://www.linkedin.com/in/ideraoluwa-fasoranti-)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ideraoluwa-fasoranti-)
